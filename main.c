@@ -25,6 +25,7 @@ compt_caractere(text, text_size , liste);
 CARACTERE** tas = entasser(liste, NB_ASCII);
 tas = trier(tas, NB_ASCII);
 affichage_tas(tas, NB_ASCII);
+construireArbreHuffman(tas, NB_ASCII);
 
 return 0;
 
