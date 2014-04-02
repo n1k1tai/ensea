@@ -1,6 +1,6 @@
 #include <stdlib.h>
 # define NB_ASCII 128
-#define VERBOSE 1
+#define VERBOSE 0
 
 typedef char* CHAINE;
 typedef int OCCURENCE;
