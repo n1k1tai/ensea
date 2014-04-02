@@ -26,7 +26,6 @@ CARACTERE** tas = entasser(liste, NB_ASCII);
 tas = trier(tas, NB_ASCII);
 affichage_tas(tas, NB_ASCII);
 
-
 return 0;
 
 }

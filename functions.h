@@ -23,6 +23,6 @@ CARACTERE** entasser ( CARACTERE* liste, SIZE liste_size );
 INDICE calc_node_up ( INDICE current_node);
 void affichage_tas( CARACTERE** tas, SIZE tas_size);
 CARACTERE** trier ( CARACTERE** tas, SIZE tas_size );
-INDICE* calc_nodes_down ( INDICE current_node);
-BOOLEAN is_last_node( INDICE particular_node );
+INDICE* calc_nodes_down ( INDICE current_node, CARACTERE** tas);
+BOOLEAN is_last_node( INDICE particular_node, INDICE last_switched );
 

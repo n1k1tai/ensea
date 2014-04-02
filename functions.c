@@ -105,16 +105,20 @@ CARACTERE** trier( CARACTERE** tas, SIZE tas_size )
 	int i,j;
 	INDICE* nodes_down;
 	INDICE node_down;
+	INDICE last_switched;
 	BOOLEAN last_node = 0;
 	for(i=tas_size-1; i!=0; i--)
 	{
 		switch_caractere(tas, i, 0);
-		if(VERBOSE) printf("\n\n[n]noeud sélectionné : %d, caractère : %c, occurence : %d\n", i, tas[i]->ascii_code, tas[i]->occurence);  
+		last_switched = i;
+		if(VERBOSE) printf("\n\n[n]Après échange : noeud sélectionné : %d, caractère : %c, occurence : %d\n", 0, tas[0]->ascii_code, tas[0]->occurence);  
 			j=0;
+			
 			do
 			{
-				nodes_down=calc_nodes_down(j);
-				if (tas[nodes_down[0]]->occurence >= tas[nodes_down[0]]->occurence) node_down=nodes_down[0];
+				last_node=0;
+				nodes_down=calc_nodes_down(j,tas);
+				if (tas[nodes_down[0]]->occurence >= tas[nodes_down[1]]->occurence) node_down=nodes_down[0];
 				else node_down=nodes_down[1];
 				
 				if (VERBOSE) printf("[i]indice du noeud actuel : %d indice du noeud inférieur de plus grande occurence : %d\n",j, node_down);
@@ -128,28 +132,42 @@ CARACTERE** trier( CARACTERE** tas, SIZE tas_size )
 					
 				else break;
 				j=node_down;
-				last_node=is_last_node(node_down);
+				if (VERBOSE) printf("[i] Avant is last node, node_down : %d, last_switched : %d\n", node_down, last_switched);
+				last_node=is_last_node(node_down,last_switched);
 
 			}
 			while(!last_node);
-		}
+			
+			
+			}
 return tas;
 }
 
-INDICE* calc_nodes_down(INDICE current_node)
+INDICE* calc_nodes_down(INDICE current_node, CARACTERE** tas)
 {
 	INDICE* nodes_down = malloc(2*sizeof(INDICE));
 	
 	nodes_down[0]=(current_node*2 + 1);
 	nodes_down[1]=(current_node*2 + 2);
+	if (VERBOSE) printf("Calcul de nodes_down, les indices sont : %d et %d, d'occurences respectives %d et %d\n", nodes_down[0], nodes_down[1], tas[nodes_down[0]]->occurence, tas[nodes_down[1]]->occurence);
 	
 	return nodes_down;
 }
 
-BOOLEAN is_last_node(INDICE particular_node)
+BOOLEAN is_last_node(INDICE particular_node, INDICE last_switched)
 {
 	BOOLEAN last_node = 0;
-	if (particular_node = NB_ASCII-1 || ( (particular_node*2+1) > NB_ASCII ) ) last_node =1;
+	if (particular_node == NB_ASCII-1 )
+	{
+		last_node =1;
+		if (VERBOSE) printf("last_node = 1 due to max overcome\n Debug : particular node : %d\n", particular_node);
+	}
+	if ((particular_node*2+1) >= last_switched ) 
+	{
+		last_node = 1;
+		if (VERBOSE) printf("last_node = 1 due to last switched overcome\n");
+	}
+	
 	if (VERBOSE) printf("Is last node : %d", last_node);
 	
 	return last_node;
