@@ -1,4 +1,4 @@
 Sources du TP2 de Structure de données.
-Avancement : Tout jusqu'à l'entassement fonctionnel. Tri : Work in progress
+Avancement : Tout jusqu'à l'entassement y compris  fonctionnel. Tri : Work in progress
 
 Notes : Mettre VERBOSE du funtions.h à 1 pour activer le mode "verbeux", la sortie de débuggage 
