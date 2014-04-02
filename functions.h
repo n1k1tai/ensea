@@ -7,6 +7,7 @@ typedef int OCCURENCE;
 typedef int SIZE;
 typedef int INDICE;
 typedef int BOOLEAN;
+typedef int BIT;
 
 typedef struct caractere
 {
@@ -15,6 +16,26 @@ typedef struct caractere
 	CHAINE chaine;
 	SIZE size;
 }CARACTERE;
+
+typedef struct NODE
+{
+	CARACTERE* node_caractere;
+	BIT node_bit;
+	OCCURENCE occurences_cumul;
+	INDICE profondeur;
+	struct NODE* father;
+	struct NODE* left_son;
+	struct NODE* right_son;
+	struct NODE* list_next;
+}NODE;
+
+typedef struct NODE_CHAIN
+{
+	NODE* first_node;
+	SIZE chain_size;	
+}NODE_CHAIN;
+	
+
 
 void init_caractere ( CARACTERE* caractere, char ascii_code, OCCURENCE occurence, CHAINE chaine, SIZE size );
 void compt_caractere ( CHAINE text, SIZE text_size, CARACTERE* liste);
@@ -25,4 +46,6 @@ void affichage_tas( CARACTERE** tas, SIZE tas_size);
 CARACTERE** trier ( CARACTERE** tas, SIZE tas_size );
 INDICE* calc_nodes_down ( INDICE current_node, CARACTERE** tas);
 BOOLEAN is_last_node( INDICE particular_node, INDICE last_switched );
+NODE creerNoeudoeud(CARACTERE* node_caractere, BIT node_bit, OCCURENCE occurences_cumul, INDICE profondeur, NODE* father, NODE* left_son, NODE* right_son, NODE* list_next );
+/* NODE construireArbreHuffman(CARACTERE** tas, SIZE NB_ASCII); */
 

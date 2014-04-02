@@ -172,3 +172,45 @@ BOOLEAN is_last_node(INDICE particular_node, INDICE last_switched)
 	
 	return last_node;
 }
+
+NODE creerNoeud(CARACTERE* node_caractere, BIT node_bit, OCCURENCE occurences_cumul, INDICE profondeur, NODE* father, NODE* left_son, NODE* right_son, NODE* list_next )
+{
+	NODE new_node;
+	
+	new_node.node_caractere=node_caractere;
+	new_node.node_bit=node_bit;
+	new_node.occurences_cumul=occurences_cumul;
+	new_node.profondeur=profondeur;
+	new_node.father=father;
+	new_node.left_son=left_son;
+	new_node.right_son=right_son;
+	new_node.list_next=list_next;
+	
+	return new_node;
+}
+
+/*
+NODE construireArbreHuffman(CARACTERE** tas, SIZE NB_ASCII)
+{
+	NODE current_node;
+	NODE former_node;
+	CARACTERE* current_caractere
+	INDICE i;
+	SIZE list_size=0;
+	NODE_CHAIN* CHAIN;
+	
+	
+	for (i=NB_ASCII-1; ( (tas[i]->occurence!= 0) && (i != 0) ) ; i--) list_size++;
+	CHAIN
+	for (i=NB_ASCII-1; i >= (NB_ASCII - list_size + 1) ; i--) 
+	{
+		current_node = creerNoeud(tas[i], 0, tas[i]->occurence, 0, NULL, NULL, NULL, NULL);   
+		CHAIN[i]
+		
+	}
+		
+		
+	
+}
+
+*/
