@@ -191,8 +191,8 @@ NODE creerNoeud(CARACTERE* node_caractere, BIT node_bit, OCCURENCE occurences_cu
 
 NODE construireArbreHuffman(CARACTERE** tas, SIZE size)
 {
-	NODE current_node;
-	NODE former_node;
+	NODE* current_node;
+	NODE* former_node;
 	CARACTERE* current_caractere;
 	INDICE i;
 	SIZE list_size=0;
@@ -204,15 +204,14 @@ NODE construireArbreHuffman(CARACTERE** tas, SIZE size)
 	
 	for (i=size-1; ( (tas[i]->occurence!= 0) && (i != 0) ) ; i--)
 	{
-		list_size++;
-		current_node = creerNoeud(tas[i], 0, tas[i]->occurence, 0, NULL, NULL, NULL, NULL);
+		NODE* current_node;
+		current_node=malloc(sizeof(NODE));
+		*current_node = creerNoeud(tas[i], 0, tas[i]->occurence, 0, NULL, NULL, NULL, NULL);
 		CHAIN.chain_size++;   
-		if ( i == size-1 ) CHAIN.first_node = &current_node;
-		else 
-		{
-			former_node.list_next=&current_node;
-			former_node = current_node;
-		}
+		if ( i == size-1 ) CHAIN.first_node = current_node;
+		else former_node->list_next=current_node;
+		former_node = current_node;
+		list_size++;
 	}
 	
 	while ( nodeChainCompt(CHAIN) >= 2 )
