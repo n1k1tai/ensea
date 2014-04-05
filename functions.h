@@ -7,7 +7,7 @@ typedef int OCCURENCE;
 typedef int SIZE;
 typedef int INDICE;
 typedef int BOOLEAN;
-typedef int BIT;
+typedef char BIT;
 
 typedef struct caractere
 {
@@ -15,12 +15,13 @@ typedef struct caractere
 	OCCURENCE occurence;
 	CHAINE chaine;
 	SIZE size;
+	char* code;
 }CARACTERE;
 
 typedef struct NODE
 {
 	CARACTERE* node_caractere;
-	BIT node_bit;
+	char node_bit;
 	OCCURENCE occurences_cumul;
 	INDICE profondeur;
 	struct NODE* father;
@@ -51,4 +52,7 @@ NODE construireArbreHuffman( CARACTERE** , SIZE );
 SIZE nodeChainCompt(NODE_CHAIN);
 NODE* extractNodeFromChain( NODE_CHAIN CHAIN, INDICE target );
 void deleteNodeFromChain( NODE_CHAIN* CHAIN, INDICE target);
-void insertNodeOnChain ( NODE_CHAIN* CHAIN, NODE* node, INDICE target);
+void insertNodeOnChain( NODE_CHAIN* CHAIN, NODE* node, INDICE target);
+NODE chercherNoeud(NODE Arbre_root, char ascii_code);
+void construireCodesHuffman(CARACTERE** tas, SIZE size, NODE Arbre__root);
+

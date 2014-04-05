@@ -232,7 +232,7 @@ NODE construireArbreHuffman(CARACTERE** tas, SIZE size)
 	}
  
 
-		
+	return *CHAIN.first_node;	
 }
 
 NODE* extractNodeFromChain( NODE_CHAIN CHAIN, INDICE target )
@@ -307,4 +307,67 @@ void insertNodeOnChain ( NODE_CHAIN* CHAIN, NODE* node, INDICE target)
 	former_node->list_next=node;
 	node->list_next=current_node;
 	CHAIN->chain_size++;
+}
+
+NODE chercherNoeud(NODE Arbre_root, char ascii_code)
+{
+	NODE current_father_node;
+	NODE current_caracter_node;
+	
+	current_father_node=Arbre_root;
+	
+	do 
+	{
+		if (current_father_node.left_son == NULL && current_father_node.right_son == NULL) return current_father_node;
+		current_caracter_node=*(current_father_node.left_son);
+		current_father_node=*(current_father_node.right_son);
+	}
+	while (current_caracter_node.node_caractere->ascii_code != ascii_code);
+	
+	return current_caracter_node;
+}
+
+void construireCodesHuffman(CARACTERE** tas, SIZE size, NODE Arbre_root)
+{
+	NODE* node_searched;
+	NODE node_searched_non_pointer;
+	NODE* current_node;
+	INDICE i;
+	INDICE j;
+	
+	for (i=size-1; ( (tas[i]->occurence!= 0) && (i != 0) ) ; i--)
+	{
+		node_searched_non_pointer=(chercherNoeud(Arbre_root, tas[i]->ascii_code));
+		node_searched=&node_searched_non_pointer;
+		node_searched->profondeur=0;
+		current_node=node_searched;
+		while (current_node->father != NULL)
+		{
+			current_node=current_node->father;
+			node_searched->profondeur++;
+		}
+		tas[i]->size=node_searched->profondeur;
+		/* On alloue dynamiquement une chaine pour stocker le code. Rappelons que BIT est un alias de char, les bits sont donc codés sur 1 octet */
+		tas[i]->code=calloc(tas[i]->size,sizeof(BIT));
+		/* On part de la racine et on va jusqu'au noeud en créant le code */
+		
+		NODE* current_node;
+		NODE* current_father_node=&Arbre_root;
+		do 
+		{
+			
+			if (current_father_node->left_son == NULL || current_father_node->right_son == NULL)
+			{
+				node_searched->node_caractere->code = strcat(node_searched->node_caractere->code, "1");
+				break;
+			}
+			current_node=current_father_node->left_son;
+			if (current_node->node_caractere->ascii_code == node_searched->node_caractere->ascii_code) break;
+			current_father_node=current_father_node->right_son;	
+			node_searched->node_caractere->code = strcat(node_searched->node_caractere->code, "1");
+			}
+		while (current_node->node_caractere->ascii_code != node_searched->node_caractere->ascii_code);
+		node_searched->node_caractere->code = strcat(node_searched->node_caractere->code, "0");	
+	}
+	
 }
