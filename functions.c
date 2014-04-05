@@ -196,6 +196,7 @@ NODE construireArbreHuffman(CARACTERE** tas, SIZE size)
 	INDICE i;
 	SIZE list_size=0;
 	NODE_CHAIN CHAIN;
+	NODE_CHAIN* pCHAIN=&CHAIN;
 	CHAIN.chain_size=0;
 	NODE* left_son;
 	NODE* right_son;
@@ -214,8 +215,8 @@ NODE construireArbreHuffman(CARACTERE** tas, SIZE size)
 	
 	while ( CHAIN.chain_size >= 2 )
 	{
-		left_son=extractNodeFromChain(CHAIN, CHAIN.chain_size-1);
-		right_son=extractNodeFromChain(CHAIN, CHAIN.chain_size-2);
+		left_son=extractNodeFromChain(CHAIN, CHAIN.chain_size);
+		right_son=extractNodeFromChain(CHAIN, CHAIN.chain_size-1);
 		NODE* father;
 		father=malloc(sizeof(NODE));
 		*father = creerNoeud(NULL, 0, left_son->occurences_cumul + right_son->occurences_cumul, 0, NULL, left_son, right_son, NULL);
@@ -223,33 +224,17 @@ NODE construireArbreHuffman(CARACTERE** tas, SIZE size)
 		right_son->father=father;
 		left_son->node_bit=0;
 		right_son->node_bit=1;
-		deleteNodeFromChain(CHAIN, CHAIN.chain_size-1);
-		deleteNodeFromChain(CHAIN, CHAIN.chain_size-2);
+		deleteNodeFromChain(pCHAIN, CHAIN.chain_size);
+		deleteNodeFromChain(pCHAIN, CHAIN.chain_size);
 		right_son->list_next=NULL;
 		left_son->list_next=NULL;
-		insertNodeOnChain(CHAIN, *father, CHAIN.chain_size-1);
+		insertNodeOnChain(pCHAIN, father, CHAIN.chain_size);
 	}
-	
+ 
+
 		
 }
 
-SIZE nodeChainCompt(NODE_CHAIN CHAIN)
-{
-	SIZE size=0;
-	NODE current_node;
-	
-	if (CHAIN.first_node == NULL) return 0;
-	current_node=*CHAIN.first_node;
-	
-	while ( current_node.list_next != NULL )
-	{
-		size++;
-		current_node=*current_node.list_next;
-	}
-	
-	return size;
-}
-		
 NODE* extractNodeFromChain( NODE_CHAIN CHAIN, INDICE target )
 {
 	NODE* current_node;
@@ -265,23 +250,25 @@ NODE* extractNodeFromChain( NODE_CHAIN CHAIN, INDICE target )
 		current_node=current_node->list_next;
 		
 	}
+	return current_node;
+	
 	
 	return NULL;
 	
 }		
 		
-void deleteNodeFromChain( NODE_CHAIN CHAIN, INDICE target)
+void deleteNodeFromChain( NODE_CHAIN* CHAIN, INDICE target)
 {
 	NODE* current_node;
 	NODE* former_node;
 	INDICE i;
 	
-	current_node=CHAIN.first_node;
+	current_node=CHAIN->first_node;
 	
 	if ( target == 1)
 	{
-		CHAIN.first_node=current_node->list_next;
-		CHAIN.chain_size--;
+		CHAIN->first_node=current_node->list_next;
+		CHAIN->chain_size--;
 		return;
 	}
 	
@@ -293,30 +280,31 @@ void deleteNodeFromChain( NODE_CHAIN CHAIN, INDICE target)
 	}
 	
 	former_node->list_next=current_node->list_next;
-	CHAIN.chain_size--;
+	CHAIN->chain_size--;
 }
 	
-void insertNodeOnChain ( NODE_CHAIN CHAIN, NODE node, INDICE target)
+void insertNodeOnChain ( NODE_CHAIN* CHAIN, NODE* node, INDICE target)
 {
-	NODE current_node;
-	NODE former_node;
+	NODE *current_node;
+	NODE *former_node;
 	INDICE i;
 	
-	current_node=*(CHAIN.first_node);
-	if (target == 1)
+	current_node=CHAIN->first_node;
+	if (target == 1 || target == 0 )
 	{
-		node.list_next=&current_node;
-		CHAIN.first_node=&node;
+		node->list_next=current_node;
+		CHAIN->first_node=node;
+		CHAIN->chain_size++;
 		return;
 	}
 	
 	for (i=1; i!= target; i++)
 	{
 		former_node=current_node;
-		current_node=*current_node.list_next;
+		current_node=current_node->list_next;
 		 
 	}
-	former_node.list_next=&node;
-	node.list_next=&current_node;
-	CHAIN.chain_size++;
+	former_node->list_next=node;
+	node->list_next=current_node;
+	CHAIN->chain_size++;
 }

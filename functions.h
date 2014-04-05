@@ -50,5 +50,5 @@ NODE creerNoeud(CARACTERE* node_caractere, BIT node_bit, OCCURENCE occurences_cu
 NODE construireArbreHuffman( CARACTERE** , SIZE );
 SIZE nodeChainCompt(NODE_CHAIN);
 NODE* extractNodeFromChain( NODE_CHAIN CHAIN, INDICE target );
-void deleteNodeFromChain( NODE_CHAIN CHAIN, INDICE target);
-void insertNodeOnChain ( NODE_CHAIN CHAIN, NODE node, INDICE target);
+void deleteNodeFromChain( NODE_CHAIN* CHAIN, INDICE target);
+void insertNodeOnChain ( NODE_CHAIN* CHAIN, NODE* node, INDICE target);
